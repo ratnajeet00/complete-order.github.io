@@ -7,10 +7,12 @@
     <style>
         /* Add your CSS styling here */
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
     <h1>Order Data</h1>
     <div id="orders"></div>
+    <button id="downloadPDF">Download PDF</button>
     
     <script>
         async function fetchData() {
@@ -44,7 +46,19 @@
             }
         }
 
+        function downloadPDF() {
+            const doc = new jsPDF();
+            doc.text('Order Data', 10, 10);
+            const ordersDiv = document.getElementById('orders');
+            const ordersHTML = ordersDiv.innerHTML;
+            doc.fromHTML(ordersHTML, 15, 15);
+            doc.save('order_data.pdf');
+        }
+
         displayData();
+
+        const downloadButton = document.getElementById('downloadPDF');
+        downloadButton.addEventListener('click', downloadPDF);
     </script>
 </body>
 </html>
